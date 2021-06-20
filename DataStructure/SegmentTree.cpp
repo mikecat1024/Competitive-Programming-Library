@@ -26,12 +26,13 @@ public:
 
     Monoid operator [] (const int i) { return query(i, i+1); }
 
-    void update(int K, const Monoid &X){
+    // {K, X} -> data[K] = X
+    void update(int K, const Monoid X){
         data[K+=length] = X;
         while(K >>= 1) data[K] = o(data[K<<1], data[K<<1|1]);
     }
 
-    // {l, r} -> 
+    // {L, R} -> o(data[[L, R)]) 
     Monoid query(int L, int R){
         Monoid l = e, r = e;
         for(L += length, R += length; L < R; L >>= 1, R >>= 1){

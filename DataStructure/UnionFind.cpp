@@ -16,37 +16,41 @@ public:
     UnionFind (const int n, const Abel unit) : data(n, Data(-1, unit)) {}
     UnionFind (const int n) : UnionFind(n, 0) {}
 
-    int Find (const int x) {
-        if(data[x].rank < 0) return x;
-        int tmp = Find(data[x].rank);
-        data[x].weight += data[data[x].rank].weight;
-        return data[x].rank = tmp;
+    // {X} -> representative of G(X)
+    int Find (const int X) {
+        if(data[X].rank < 0) return X;
+        int tmp = Find(data[X].rank);
+        data[X].weight += data[data[X].rank].weight;
+        return data[X].rank = tmp;
     }
 
-    bool Same (const int x, const int y) {
-        return Find(x) == Find(y);
+    // {X, Y} -> if G(X) = G(Y) or not 
+    bool Same (const int X, const int Y) {
+        return Find(X) == Find(Y);
     }
 
-    bool Unite (int x, int y, Abel w) {
-        w += Weight(x)-Weight(y);
-        if((x = Find(x)) == (y = Find(y))) return false;
-        if(data[x].rank > data[y].rank) swap(x, y), w = -w;
-        data[x].rank += data[y].rank;
-        data[y] = Data(x, w);
+    // {X, Y, W} -> marge G(X) and G(Y)
+    bool Unite (int X, int Y, Abel W) {
+        W += Weight(X)-Weight(Y);
+        if((X = Find(X)) == (Y = Find(Y))) return false;
+        if(data[X].rank > data[Y].rank) swap(X, Y), W = -W;
+        data[X].rank += data[Y].rank;
+        data[Y] = Data(X, W);
         return true;
-    } bool Unite (const int x, const int y) { return Unite(x, y, 0); }
+    } bool Unite (const int X, const int Y) { return Unite(X, Y, 0); }
 
-    int Size (const int x) {
-        return -data[Find(x)].rank;
+    // {X} -> |G(X)|
+    int Size (const int X) {
+        return -data[Find(X)].rank;
     }
     
-    Abel Weight (const int x) {
-        Find(x);
-        return data[x].weight;
+    Abel Weight (const int X) {
+        Find(X);
+        return data[X].weight;
     }
 
-    Abel Diff (const int x, const int y) {
-        return Weight(y) - Weight(x);
+    Abel Diff (const int X, const int Y) {
+        return Weight(Y) - Weight(X);
     }
 };
 
