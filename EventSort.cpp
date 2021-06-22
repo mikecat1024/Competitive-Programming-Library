@@ -27,8 +27,8 @@ template<typename T> struct EventSort {
         multiset<int> state;
         for(int i = 0, j = 0; i < (int)query.size(); i++){
             while(j < (int)event.size() && get<0>(event[j]) <= query[i]){
-                if(get<1>(event[j])) state.insert(get<2>(event[j++])); // for example if you want to get the sum of state, you can change this area.
-                else state.erase(state.find(get<2>(event[j++]))); // in this area, state is changing.
+                // if(get<1>(event[j])) state.insert(get<2>(event[j++])); // for example if you want to get the sum of state, you can change this area.
+                // else state.erase(state.find(get<2>(event[j++]))); // in this area, state is changing.
                 // if(get<1>(event[j])) sum += get<2>(event[j++]); // this is a sample of sum.
                 // else sum -= get<2>(event[j++]);
             }
