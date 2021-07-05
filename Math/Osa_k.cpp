@@ -17,7 +17,6 @@ struct osa_k {
                     if(spf[j] == j) spf[j] = i;
                 }
             }
-
         }
     }
 
